@@ -1,0 +1,12 @@
+http://www.vg.no/rss/feed/forsiden/
+http://www.aftenposten.no/rss/
+http://www.dagbladet.no/rss/nyheter/
+http://www.tek.no/feeds/general.xml
+http://tech.vg.no/feed/
+http://www.techmeme.com/feed.xml
+http://feeds.arstechnica.com/arstechnica/everything
+http://feeds.macrumors.com/MacRumors-Front
+http://www.digi.no/phpf/feed/rss/digi.php
+http://itavisen.no/rss.php
+http://www.raspberrypi.org/?feed=rss2
+https://www.reddit.com/r/news/.rss
