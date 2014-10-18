@@ -4,62 +4,83 @@
  */
 package no.uit;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.TimeZone;
+
 /**
  *
  * @author jt
  */
 public class FeedMessage {
-     
-  String title;
-  String description;
-  String link;
-  String author;
-  String guid;
 
-  public String getTitle() {
-    return title;
-  }
+    private String title;
+    private String description;
+    private String link;
+    private String author;
+    private String guid;
+    private String pubDate;
 
-  public void setTitle(String title) {
-    this.title = title;
-  }
+      public String getTitle() {
+        return title;
+      }
 
-  public String getDescription() {
-    return description;
-  }
+      public void setTitle(String title) {
+        this.title = title;
+      }
 
-  public void setDescription(String description) {
-    this.description = description;
-  }
+      public String getDescription() {
+        return description;
+      }
 
-  public String getLink() {
-    return link;
-  }
+      public void setDescription(String description) {
+        this.description = description;
+      }
 
-  public void setLink(String link) {
-    this.link = link;
-  }
+      public String getLink() {
+        return link;
+      }
 
-  public String getAuthor() {
-    return author;
-  }
+      public void setLink(String link) {
+        this.link = link;
+      }
 
-  public void setAuthor(String author) {
-    this.author = author;
-  }
+      public String getAuthor() {
+        return author;
+      }
 
-  public String getGuid() {
-    return guid;
-  }
+      public void setAuthor(String author) {
+        this.author = author;
+      }
 
-  public void setGuid(String guid) {
-    this.guid = guid;
-  }
+      public String getGuid() {
+          if(guid == null || guid == "") {
+              return link;
+          } else {
+              return guid;
+          }
+      }
 
-  @Override
-  public String toString() {
-    return "FeedMessage [title=" + title + ", description=" + description
-        + ", link=" + link + ", author=" + author + ", guid=" + guid
-        + "]";
-  }
+      public void setGuid(String guid) {
+        this.guid = guid;
+      }
+
+      public String getPubDate() {
+          return pubDate;
+      }
+
+      public void setPubDate(String pubDate) {
+          TimeZone tz = TimeZone.getTimeZone("UTC");
+          DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm'Z'");
+          df.setTimeZone(tz);
+          this.pubDate = df.format(new Date());
+      }
+
+      @Override
+      public String toString() {
+        return "FeedMessage [title=" + title + ", description=" + description
+            + ", link=" + link + ", author=" + author + ", pubDate=" + pubDate + ", guid=" + guid
+            + "]";
+      }
 }

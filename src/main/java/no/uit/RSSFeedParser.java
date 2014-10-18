@@ -1,11 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package no.uit;
 
+import java.io.BufferedInputStream;
+import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
@@ -40,7 +36,6 @@ public class RSSFeedParser {
       this.url = new URL(feedUrl);
     } catch (MalformedURLException e) {
         e.printStackTrace();
-      //throw new RuntimeException(e);
     }
   }
 
@@ -60,15 +55,30 @@ public class RSSFeedParser {
 
       // First create a new XMLInputFactory
       XMLInputFactory inputFactory = XMLInputFactory.newInstance();
+      inputFactory.setProperty(XMLInputFactory.IS_COALESCING, true);
       // Setup a new eventReader
       InputStream in = read();
-        if(in == null) {
-            return null;
-        }
+      if(in == null) {
+          return null;
+      }
+//
+//        DataInputStream dis = new DataInputStream(new BufferedInputStream(in));
+//        String s;
+//        try {
+//            while ((s = dis.readLine()) != null) {
+//                System.out.println(s);
+//            }
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+
+
       XMLEventReader eventReader = inputFactory.createXMLEventReader(in);
       // read the XML document
+      Boolean secondTitle = false;
       while (eventReader.hasNext()) {
         XMLEvent event = eventReader.nextEvent();
+
         if (event.isStartElement()) {
           String localPart = event.asStartElement().getName()
               .getLocalPart();
@@ -83,6 +93,9 @@ public class RSSFeedParser {
             break;
           case TITLE:
             title = getCharacterData(event, eventReader);
+            if (isFeedHeader == false) {
+                secondTitle = true;
+            }
             break;
           case DESCRIPTION:
             description = getCharacterData(event, eventReader);
@@ -108,20 +121,23 @@ public class RSSFeedParser {
           }
         } else if (event.isEndElement()) {
           if (event.asEndElement().getName().getLocalPart() == (ITEM)) {
-            FeedMessage message = new FeedMessage();
-            message.setAuthor(author);
-            message.setDescription(description);
-            message.setGuid(guid);
-            message.setLink(link);
-            message.setTitle(title);
-            feed.getMessages().add(message);
+              if (secondTitle) {
+                  FeedMessage message = new FeedMessage();
+                  message.setAuthor(author);
+                  message.setDescription(description);
+                  message.setGuid(guid);
+                  message.setLink(link);
+                  message.setTitle(title);
+                  message.setPubDate(pubdate);
+                  feed.getMessages().add(message);
+              }
+
             event = eventReader.nextEvent();
             continue;
           }
         }
       }
     } catch (XMLStreamException e) {
-      //throw new RuntimeException(e);
         e.printStackTrace();
     }
     return feed;
@@ -132,7 +148,7 @@ public class RSSFeedParser {
     String result = "";
     event = eventReader.nextEvent();
     if (event instanceof Characters) {
-      result = event.asCharacters().getData();
+        result = new String(event.asCharacters().getData());
     }
     return result;
   }

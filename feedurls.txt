@@ -7,6 +7,6 @@ http://www.techmeme.com/feed.xml
 http://feeds.arstechnica.com/arstechnica/everything
 http://feeds.macrumors.com/MacRumors-Front
 http://www.digi.no/phpf/feed/rss/digi.php
-http://itavisen.no/rss.php
 http://www.raspberrypi.org/?feed=rss2
 https://www.reddit.com/r/news/.rss
+http://www.reddit.com/r/worldnews/.rss

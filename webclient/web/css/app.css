@@ -1,0 +1,10 @@
+.feed-container {
+    background-color: #eee;
+    border-radius: 20px;
+    margin: 2em;
+    padding: 1em;
+}
+
+.feed-headline {
+    color:black;
+}

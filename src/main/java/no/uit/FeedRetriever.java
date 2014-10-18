@@ -8,6 +8,7 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.protocol.HTTP;
 
+import java.net.URLDecoder;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -36,6 +37,8 @@ public class FeedRetriever {
                     int response = putFeedMessage(message);
                     if (response == 201) {
                         System.out.println("New entry for "+message);
+                    } else if ( response == 200) {
+                        System.out.println("Updated entry for "+message);
                     }
                 } catch (Exception ex) {
                     Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
@@ -53,28 +56,15 @@ public class FeedRetriever {
         String url = "http://localhost:9200/messages/message/";
 
         HttpClient client = new DefaultHttpClient();
-        HttpPut put = new HttpPut(url+message.guid.replace("/", "").replace(":", "").replace(".", ""));
-
+        HttpPut put = new HttpPut(url+message.getGuid().replaceAll("[^a-zA-Z0-9]+","")+"/_create");
         String body = gson.toJson(message);
+//        System.out.println(url+message.guid.replaceAll("[^a-zA-Z0-9]+","")+"/_create");
 //        System.out.println("\nJson body: "+body);
         StringEntity params = new StringEntity(body);
         put.addHeader("content-type", "application/json");
         put.setEntity(new StringEntity(body, HTTP.UTF_8));
 
         HttpResponse response = client.execute(put);
-//        System.out.println("\nSending 'POST' request to URL : " + url);
-//        System.out.println("Post parameters : " + put.getEntity());
-//        System.out.println("Response Code : " + response.getStatusLine().getStatusCode());
-
-//        BufferedReader rd = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
-//
-//        StringBuffer result = new StringBuffer();
-//        String line = "";
-//        while ((line = rd.readLine()) != null) {
-//            result.append(line);
-//        }
-//
-//        System.out.println(result.toString());
 
         return response.getStatusLine().getStatusCode();
     }
