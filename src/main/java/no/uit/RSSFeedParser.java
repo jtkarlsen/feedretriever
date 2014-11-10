@@ -121,7 +121,7 @@ public class RSSFeedParser {
           }
         } else if (event.isEndElement()) {
           if (event.asEndElement().getName().getLocalPart() == (ITEM)) {
-              if (secondTitle) {
+              if (title != feed.title) {
                   FeedMessage message = new FeedMessage();
                   message.setAuthor(author);
                   message.setDescription(description);

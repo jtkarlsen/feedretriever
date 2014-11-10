@@ -19,10 +19,14 @@
   </head>
   <body ng-app="app" ng-controller="AppCtrl">
         <div class="container">
+            <p>Time: {{responseInfo.time}}ms | Hits: {{responseInfo.hitsTotal}} | Showing: {{responseInfo.hitsShowing}}</p>
             <div class="feed-container" ng-repeat="headline in news">
                 <h1><a class="feed-headline" role="button" target="_blank" href="{{headline._source.link}}">{{createTrustedHtml(headline._source.title)}}</a></h1>
                 <div ng-bind-html="createTrustedHtml(headline._source.description)"></div>
-                <p class="text-right">{{getSource(headline._source.link)}}</p>
+                <div class="feed-footer">
+                    <div class="feed-footer-div"><p class="text-left">{{parseDate(headline._source.pubDate)}} - {{headline._score}}</p></div>
+                    <div class="feed-footer-div"><p class="text-right">{{getSource(headline._source.link)}}</p></div>
+                </div>
             </div>
         </div>
   </body>
