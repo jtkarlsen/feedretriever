@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/feedretriever.iml" filepath="$PROJECT_DIR$/feedretriever.iml" />
-      <module fileurl="file://$PROJECT_DIR$/webclient/webclient.iml" filepath="$PROJECT_DIR$/webclient/webclient.iml" />
     </modules>
   </component>
 </project>
